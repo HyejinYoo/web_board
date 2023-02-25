@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title= 'board'
+    style
+        include ../app_style.css
+  body
+    div(class='changedisplay')
+      h1= 'Change name'
+      form(action="/change_name" method="post")
+        p
+          input(type="text" name="newname" placeholder="new name")
+        p
+          input(type="password" name="password" placeholder="password")
+        p
+          input(type="submit" value="submit")
+      p
+        a(href='/home'  class='box') Home

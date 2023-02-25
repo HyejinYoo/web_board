@@ -1,0 +1,81 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title= 'board'
+    style
+        include ../app_style.css
+  body
+    div(class='container')
+      header
+        if displayname
+          h1= 'Hello, '+displayname
+        else
+          h1= 'welcome'
+
+      div(class='top')
+        if displayname
+          div(class='change' style='display:inline')
+            a(href='/change_name' class='box') change name
+            |&nbsp;
+            a(href='/change_pwd' class='box') change pwd
+          div(class='logout' style='display:inline')
+            a(href='/logout' class='box')= 'Logout('+username+')'
+        else
+          div(class='logouttop')
+            a(href='/login' style='display:inline' class='box') Login
+            |&nbsp;
+            a(href='/join' style='display:inline' class='box') Join
+
+      div(class='content')
+        div(class='post')
+          if post
+            div(class='postidheader')
+              h2(class='idtitle')= post.title
+              h3(class='idwriter')= '작성자: '+post.writer
+              h3(class='idcreated')= '작성일: '+post.createdtime
+            p(class='text')= post.text
+          else
+            p= 'There is no post.'
+        div(class='postbottom')
+          div(class='like' style='display:inline')
+            ='like'+post.like
+            if displayname
+              if userlike
+                form(action='/home/'+post.id+'/deletelike' method='post' style='display:inline')
+                  input(type='hidden' name='displayname' value=displayname)
+                  input(type='hidden' name='curlike' value=post.like)
+                  input(type="submit" value='delete like' class='box')
+              else
+                form(action='/home/'+post.id+'/like' method='post' style='display:inline')
+                  input(type='hidden' name='displayname' value=displayname)
+                  input(type='hidden' name='curlike' value=post.like)
+                  input(type='submit' value='like' class='box')
+          div(class='postwriter' style='display:inline')
+            if post && userid===post.writerid
+             a(href='/home/'+post.id+'/edit' style='display:inline' class='box') edit
+             form(action='/home/'+post.id+'/delete' method='post' style='display:inline' class='box')
+              input(type='submit' value='delete' class='postdelete' )
+      div(class='home')
+        a(href='/home' class='homebox') home
+
+      div(class='comment')
+        div(class='commentinput')
+          if displayname
+            form(action='/home/'+post.id+'/comment' method='post' style='display:inline')
+              textarea(name='commenttext' placeholder='comment' class='commenttextarea')
+              br
+              div(class='leave')
+                input(type='submit' value='leave' class='box')
+        ul(class='commentlist')
+          each comment in comments
+            div(class='eachcomment')
+              li(class='commentcontent')
+                p= comment.commentwriter
+                p= comment.commenttext
+              div(commentbottom)
+                span= comment.createdtime
+                if userid===comment.commentwriterid
+                  form(action='/home/'+post.id+'/comment/delete' method='post' style='display:inline')
+                    input(type='hidden' name='commentid' value=comment.id)
+                    input(type='submit' value='delete')

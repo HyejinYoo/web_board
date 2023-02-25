@@ -1,0 +1,43 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title= 'board'
+    style
+        include ../app_style.css
+  body
+    div(class='container')
+      header
+        if displayname
+          h1= 'Hello, '+displayname
+        else
+          h1= 'welcome'
+
+      div(class='top')
+        if displayname
+          div(class='change' style='display:inline')
+            a(href='/change_name' class='box') change name
+            |&nbsp;
+            a(href='/change_pwd' class='box') change pwd
+          div(class='logout' style='display:inline')
+            a(href='/logout' class='box')= 'Logout('+username+')'
+        else
+          div(class='logouttop')
+            a(href='/login' style='display:inline' class='box') Login
+            |&nbsp;
+            a(href='/join' style='display:inline' class='box') Join
+
+      div(class='content')
+        div(class='postlist')
+          if posts.length===0
+            p= 'No search results found.'
+          else
+            ul
+              each post in posts
+                li
+                  div(class='postheader')
+                    a(href='/home/'+post.id class='title')= post.title
+                    a(href='/home/'+post.id class='writer')= post.writer
+                    a(href='/home/'+post.id class='created')= post.createdtime
+      div(class='home')
+        a(href='/home' class='homebox') home

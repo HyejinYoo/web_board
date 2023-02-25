@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title= 'board'
+    style
+        include ../app_style.css
+  body
+    div(class='login')
+      h1= 'Login'
+      form(action='/login' method='post')
+        p
+          input(type="text" name="username" placeholder="username")
+        p
+          input(type="password" name="password" placeholder="password")
+        p
+          input(type="submit"  value="submit")
+
+      a(href='/join' class='box') Join
+      |&ensp;
+      a(href='/home' class='box') Home
